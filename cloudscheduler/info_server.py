@@ -75,30 +75,38 @@ class CloudSchedulerInfoServer(threading.Thread,):
                     output += cluster.get_cluster_info_short()+"\n"
                 return output
             def get_cluster_vm_resources(self):
-                output = "VMs in cluster:\n"
+                output = "VMs in cluster: \n"
                 for cluster in cloud_resources.resources:
                     output += cluster.get_cluster_vms_info()+"\n"
                 return output
             def get_cluster_info(self, cluster_name):
-                output = "Cluster Info: %s\n" % cluster_name
+                output = "Cluster Info: %s \n" % cluster_name
                 cluster = cloud_resources.get_cluster(cluster_name)
                 if cluster:
                     output += cluster.get_cluster_info_short()
                 else:
                     output += "Cluster named %s not found." % cluster_name
                 return output
+            def get_all_vm_cluster(self, cluster_name):
+                output = ""
+                cluster = cloud_resources.get_cluster(cluster_name)
+                if cluster:
+                    output += cluster.get_cluster_vms_info() + "\n"
+                else:
+                    output += "Cluster %s not found. \n" % cluster_name
+                return output
             def get_vm_info(self, cluster_name, vm_id):
-                output = "VM Info for VM id: %s\n" % vm_id
+                output = "VM Info for VM id: %s \n" % vm_id
                 cluster = cloud_resources.get_cluster(cluster_name)
                 vm = None
                 if cluster:
                     vm = cluster.get_vm(vm_id)
                 else:
-                    output += "Cluster %s not found.\n" % cluster_name
+                    output += "Cluster %s not found. \n" % cluster_name
                 if vm:
                     output += vm.get_vm_info()
                 else:
-                    output += "VM with id: %s not found.\n" % vm_id
+                    output += "VM with id: %s not found. \n" % vm_id
                 return output
             def get_json_vm(self, cluster_name, vm_id):
                 output = "{}"

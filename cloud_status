@@ -33,7 +33,7 @@ def main(argv=None):
                       dest="vms", default=False, 
                       help="Get all VMs in Cloud Scheduler")
     parser.add_option("-n", "--vm-info", dest="vm_id", metavar="ID", 
-                      help="Get information on a virtual machine")
+                      help="Get information on a virtual machine, \"all\" for all VMs")
     parser.add_option("-j", "--json", dest="json", action="store_true",
                       default=False, help="Get JSON output")
     parser.add_option("-d", "--developer-information", action="store_true",
@@ -66,7 +66,10 @@ def main(argv=None):
         elif cli_options.vms:
             print s.get_cluster_vm_resources()
         elif not cli_options.json and cli_options.vm_id and cli_options.cluster_name:
-            print s.get_vm_info(cli_options.cluster_name, cli_options.vm_id)
+            if cli_options.vm_id == "all":
+                print s.get_all_vm_cluster(cli_options.cluster_name)
+            else:
+                print s.get_vm_info(cli_options.cluster_name, cli_options.vm_id)
         elif cli_options.vm_id and not cli_options.cluster_name:
             print "Please provide -c cluster_name with vm ID"
         elif not cli_options.json and cli_options.cluster_name and not cli_options.vm_id:
